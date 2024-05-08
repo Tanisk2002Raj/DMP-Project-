@@ -1,0 +1,54 @@
+import faulthandler  # For debugging unhandled exceptions (optional)
+
+class CharacterEntry(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        layout = QtWidgets.QHBoxLayout(self)
+
+        self.char_label = QtWidgets.QLabel()
+        self.unicode_label = QtWidgets.QLabel()
+
+        layout.addWidget(self.char_label)
+        layout.addWidget(self.unicode_label)
+
+        layout.setContentsMargins(0, 0, 0, 0)
+    # ... (set character and code point methods)
+
+class OpcodeDropdown(QtWidgets.QComboBox):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.populate_opcodes()  # Load from opcode_data.py
+
+    def populate_opcodes(self):
+        self.addItems(OPCODES)  # List of valid opcodes
+class OperandEntry(QtWidgets.QLineEdit):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.validator = None  # Initialize validator based on opcode selection
+
+    def set_validator(self, opcode):
+        # Dynamically set validator based on opcode requirements (e.g., integer validator)
+        self.validator = ...
+        self.setValidator(self.validator)
+
+    def validateInput(self):
+        # Custom validation logic using validator or regular expressions
+        # Update UI for errors (e.g., set background color to red)
+        ...
+import liblouis
+
+class TranslationTester:
+    def __init__(self, table_model):
+        self.table_model = table_model
+
+    def test_forward(self, input_text):
+        # Call liblouis.translate() with table data and input text
+        # Display translated Braille output
+        ...
+
+    def test_back(self, input_braille):
+        # Call liblouis.backTranslate() with table data and input braille
+        # Display translated text output
+        ...
+class CharacterEntry(QtWidgets.QWidget):
+    #
