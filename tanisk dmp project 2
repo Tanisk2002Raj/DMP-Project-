@@ -1,0 +1,38 @@
+from cachetools import LRUCache
+
+class DocumentResponseCache:
+    def __init__(self, max_size=100, ttl=3600):  # Adjust max_size and ttl as needed
+        self.cache = LRUCache(maxsize=max_size)
+        self.ttl = ttl  # Cache expiration time in seconds
+
+    def get(self, document_id):
+        cached_response = self.cache.get(document_id)
+        if cached_response and (time.time() - cached_response[1]) < self.ttl:
+            # Cache hit within TTL
+            return cached_response[0]
+        else:
+            # Cache miss or expired entry
+            return None
+
+    def set(self, document_id, response):
+        self.cache[document_id] = (response, time.time())
+
+# Example usage:
+cache = DocumentResponseCache()
+
+def handle_user_request(document_id):
+    cached_response = cache.get(document_id)
+    if cached_response:
+        return cached_response  # Use cached response
+
+    # Retrieve and process document
+    document_content = ...  # Retrieve content from PDF, audio, or video
+    processed_content = ...  # Process content (e.g., extract text, features)
+
+    # Generate response using GPT
+    response = generate_gpt_response(processed_content)
+
+    # Update cache
+    cache.set(document_id, response)
+
+    return response
