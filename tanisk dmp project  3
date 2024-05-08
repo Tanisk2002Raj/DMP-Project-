@@ -1,0 +1,24 @@
+<TestPlan>
+  <property name="TestPlan.name" value="PH-EE Performance Test"/>
+
+  <ThreadGroup>
+    <property name="ThreadGroup.num_threads" value="10"/>  # Adjust concurrency
+    <property name="ThreadGroup.ramp_up" value="10"/>     # Adjust ramp-up time
+
+    <HTTPSampler>
+      <property name="HTTP Request.url" value="https://your-phee-endpoint"/>
+      <property name="HTTP Request.method" value="POST"/>
+      <property name="Body Data" value="..."/></HTTPSampler>
+  </ThreadGroup>
+</TestPlan>
+from googleapiclient.discovery import build
+
+service = build('monitoring', 'v3')
+
+# Get resource usage metrics (replace project_id and region)
+metrics = service.projects().metricDescriptors().list(
+    name=f"projects/your-project-id/regions/your-region"
+).execute()
+
+# Process metrics and generate cost estimation report
+# ... (logic for analyzing usage and estimating costs)
